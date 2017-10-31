@@ -7,9 +7,10 @@ var Year = function(input) {
   this.year = input
 };
 
-Year.prototype.isLeap = function(input) {
-  input = this.year;
-  return input % 100 == 0 ? (input % 400 === 0) : (input%4===0);
+Year.prototype.isLeap = function() {
+  const normalYears = this.year % 4 === 0;
+  const fourthCenturion = this.year  % 400 === 0;
+  return this.year % 100 === 0 ? fourthCenturion : normalYears;
 };
 
 module.exports = Year;
