@@ -7,7 +7,7 @@ class Gigasecond {
     //copy date to prevent it being mutated.
     const date = new Date(this.inputDate);
     //convert result back into Date proto before returning it
-    return new Date(date.setSeconds(date.getSeconds() + 1000000000));
+    return new Date(date.setSeconds(date.getSeconds() + 1e9));
   }
 }
 
