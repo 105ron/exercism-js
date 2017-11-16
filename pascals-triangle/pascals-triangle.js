@@ -1,11 +1,10 @@
 const calculateRow = (rows) => {
   let previousRow = [1];
   let thisRow = [];
-  let newLength = 2
   const allRows = [ [ ...previousRow ] ];
   for (n = 1; n < rows; n += 1) {
-    for (let i = 0; i < newLength; i += 1) {
-      if (i === 0 || i === (newLength) -1) {
+    for (let i = 0; i < previousRow.length + 1; i += 1) {
+      if (i === 0 || i === previousRow.length) {
         thisRow.push(1);
       } else {
         const sumNumbers = previousRow[i] + previousRow[i-1];
@@ -15,7 +14,6 @@ const calculateRow = (rows) => {
     allRows.push(thisRow);
     previousRow = [ ...thisRow ]
     thisRow = [];
-    newLength += 1;
   }
   return allRows;
 }
