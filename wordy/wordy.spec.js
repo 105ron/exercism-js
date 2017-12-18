@@ -22,7 +22,7 @@ describe('Word Problem', function () {
     expect(new WordProblem(question).answer()).toEqual(45801);
   });
 
-  it('subtract', function () {
+  xit('subtract', function () {
     var question = 'What is 4 minus -12?';
     expect(new WordProblem(question).answer()).toEqual(16);
   });
