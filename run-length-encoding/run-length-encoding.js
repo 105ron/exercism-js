@@ -1,13 +1,13 @@
 const RLE = {
-  encode: (string) => {
-    return string.split('').reduce( (acc, curr, index, arr) => {
+  encode: (string) => string
+  .split('')
+  .reduce( (acc, curr, index, arr) => {
       let count = 1;
       while(curr === arr[index + count]) count++;
       return acc += (acc.substr(-1) !== curr)
         ? (count > 1) ? count + curr : curr
         : '';
-    },'');
-  },
+    },''),
   
   decode: (string) => {
     const stringArray = /\D|\d+/g[Symbol.match](string) || []; //Array of numbers and character split up

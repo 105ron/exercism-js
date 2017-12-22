@@ -1,7 +1,6 @@
 var TwoFer = function () {};
 
-TwoFer.prototype.twoFer = function (who) {
-  who = who || 'you';
+TwoFer.prototype.twoFer = function (who = 'you') {
   return `One for ${ who }, one for me.`;
 };
 
