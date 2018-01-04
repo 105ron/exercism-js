@@ -1,11 +1,9 @@
 const verseEndings = (number, animal) => {
-  const catching = (number) => (`She swallowed the ${ animal[number ] } to catch the ${ animal[number -1] }.\n`);
-  const verseEnding = {
-    1: `I don\'t know why she swallowed the fly. Perhaps she\'ll die.\n`,
-    3: `She swallowed the bird to catch the spider that wriggled and jiggled and tickled inside her.\n`
-  };
-  return (number ===  1) ?  verseEnding[number] : 
-    `${ verseEnding[number] || catching(number) }${ verseEndings(number -1, animal) }`;  
+  const catching = number => (`She swallowed the ${ animal[number ] } to catch the ${ animal[number -1] }.\n`);
+  const verseString = number => (number === 3 ? `She swallowed the bird to catch the spider that wriggled and jiggled and tickled inside her.\n` :
+                          catching(number) );
+  return (number ===  1) ?  `I don\'t know why she swallowed the fly. Perhaps she\'ll die.\n` : 
+    `${ verseString(number) }${ verseEndings(number -1, animal) }`;  
 }
 
 class FoodChain {
