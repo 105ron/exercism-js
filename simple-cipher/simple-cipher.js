@@ -41,9 +41,6 @@ class Cipher {
   decode(chars) {
     return this.encrypt(chars, true);
   }
-
 }
 
 module.exports = Cipher;
-
-
