@@ -1,12 +1,10 @@
 function arrayContainsArray(array, element) {
   var containsArray = false;
-  console.log(`${element} <- element and array -> ${array}`);
   for (var i = 0; i < array.length; i++) {
     if (array[i].join() === element.join()) {
       containsArray = true;
     }
   }
-
   return containsArray;
 }
 
