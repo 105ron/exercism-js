@@ -19,7 +19,7 @@ function descriptorToNumber (year, month, descriptor) {
 }
 
 function meetupDay (year, month, day, descriptor) {
-  const dayValue = daysNames.findIndex((e) => e === day);;
+  const dayValue = daysNames.indexOf(day);;
   let startValue = descriptorToNumber(year, month, descriptor);
   const maxValue = daysInMonth(year, month);
   for (let i = startValue; startValue <= maxValue; i ++) {
