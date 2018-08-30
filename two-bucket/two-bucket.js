@@ -13,17 +13,22 @@ class TwoBucket {
 		);
 	}
 	moves() {
-		const moveCount = this.start.capacity > this.other.capacity
-			? largerStartingBucket(this.start, this.other, this.targetVolume)
-			: smallerStartingBucket(this.start, this.other, this.targetVolume);
+		let moves = 0;
+		while (true) {
+			if (this.other.volume < this.other.capacity) {
+				this.start.volume ? this.start.pour(this.other) : this.start.fill();
+				moves++;
+				if (this.start.volume === this.targetVolume) {
+					this.otherBucket = this.other.volume;
+					this.goalBucket = this.start.name;
+					return moves;
+				}
 
-		if (this.start.volume === this.targetVolume) {
-			this.otherBucket = this.other.volume;
-		} else {
-			this.goalBucket = this.other.name;
-			this.otherBucket = this.start.volume;
+			} else {
+				this.other.empty();
+				moves++;
+			}
 		}
-		return moveCount;
 	}
 }
 
@@ -41,52 +46,14 @@ class Bucket {
 			target.volume += this.volume;
 			this.volume = 0;
 		}
-  }
-  
+	}
 	empty() {
 		this.volume = 0;
-  }
-  
+	}
 	fill() {
 		this.volume = this.capacity;
 	}
 }
 
-function largerStartingBucket(start, other, target) {
-	let moves = 1;
-	start.fill();
-	while (start.volume !== target || other.volume !== target) {
-		while (start.volume > other.capacity) {
-			start.pour(other);
-			moves++;
-			if (start.volume === target) return moves;
-			other.empty();
-			moves++;
-		}
-		start.pour(other);
-		moves++;
-		start.fill();
-		moves++;
-	}
-	return moves;
-}
-
-function smallerStartingBucket(start, other, target) {
-  let moves = 0;
-  while (start.volume !== target || other.volume !== target) {
-    while (other.volume < other.capacity) {
-      start.fill();
-      moves++;
-      start.pour(other);
-      moves++;
-      if (start.volume === target) return moves;
-    }
-    other.empty();
-    moves++;
-    start.pour(other);
-    moves++;
-  }
-  return moves;
-}
 
 module.exports = TwoBucket;
