@@ -1,228 +1,159 @@
-var Bowling = require('./bowling');
+import Bowling from './bowling';
 
-describe('Bowling', function () {
-  function previousRolls(bowling, rolls) {
-    for (var i = 0; i < rolls.length; i++) {
-      bowling.roll(rolls[i]);
-    }
-  }
-  describe('Check game can be scored correctly.', function () {
-    it('should be able to score a game with all gutterballs', function () {
-      var rolls = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-      var bowling = new Bowling();
-      previousRolls(bowling, rolls);
-      expect(bowling.score()).toEqual(0);
+describe('Bowling', () => {
+  describe('Check game can be scored correctly.', () => {
+    test('should be able to score a game with all gutterballs', () => {
+      const rolls = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+      expect(new Bowling(rolls).score()).toEqual(0);
     });
 
-    it('should be able to score a game with no strikes or spares', function () {
-      var rolls = [3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6];
-      var bowling = new Bowling();
-      previousRolls(bowling, rolls);
-      expect(bowling.score()).toEqual(90);
+    test('should be able to score a game with all open frames', () => {
+      const rolls = [3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6, 3, 6];
+      expect(new Bowling(rolls).score()).toEqual(90);
     });
 
-    it('a spare followed by zeros is worth ten points', function () {
-      var rolls = [6, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-      var bowling = new Bowling();
-      previousRolls(bowling, rolls);
-      expect(bowling.score()).toEqual(10);
+    test('a spare followed by zeros is worth ten points', () => {
+      const rolls = [6, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+      expect(new Bowling(rolls).score()).toEqual(10);
     });
 
-    it('points scored in the roll after a spare are counted twice', function () {
-      var rolls = [6, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-      var bowling = new Bowling();
-      previousRolls(bowling, rolls);
-      expect(bowling.score()).toEqual(16);
+    test('points scored in the roll after a spare are counted twice', () => {
+      const rolls = [6, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+      expect(new Bowling(rolls).score()).toEqual(16);
     });
 
-    it('consecutive spares each get a one-roll bonus', function () {
-      var rolls = [5, 5, 3, 7, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-      var bowling = new Bowling();
-      previousRolls(bowling, rolls);
-      expect(bowling.score()).toEqual(31);
+    test('consecutive spares each get a one roll bonus', () => {
+      const rolls = [5, 5, 3, 7, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+      expect(new Bowling(rolls).score()).toEqual(31);
     });
 
-    it('should allow fill ball the last frame is a spare', function () {
-      var rolls = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 3, 7];
-      var bowling = new Bowling();
-      previousRolls(bowling, rolls);
-      expect(bowling.score()).toEqual(17);
+    test('should allow fill ball when the last frame is a spare', () => {
+      const rolls = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 3, 7];
+      expect(new Bowling(rolls).score()).toEqual(17);
     });
 
-    it('a strike earns ten  points in a frame with a single roll', function () {
-      var rolls = [10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-      var bowling = new Bowling();
-      previousRolls(bowling, rolls);
-      expect(bowling.score()).toEqual(10);
+    test('a strike earns ten points in a frame with a single roll', () => {
+      const rolls = [10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+      expect(new Bowling(rolls).score()).toEqual(10);
     });
 
-    it('points scored in the two rolls after a strike are counted twice as a bonus', function () {
-      var rolls = [10, 5, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-      var bowling = new Bowling();
-      previousRolls(bowling, rolls);
-      expect(bowling.score()).toEqual(26);
+    test('points scored in the two rolls after a strike are counted twice as a bonus', () => {
+      const rolls = [10, 5, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+      expect(new Bowling(rolls).score()).toEqual(26);
     });
 
-    it('should be able to score multiple strikes in a row', function () {
-      var rolls = [10, 10, 10, 5, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-      var bowling = new Bowling();
-      previousRolls(bowling, rolls);
-      expect(bowling.score()).toEqual(81);
+    test('should be able to score multiple strikes in a row', () => {
+      const rolls = [10, 10, 10, 5, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+      expect(new Bowling(rolls).score()).toEqual(81);
     });
 
-    it('should allow fill balls when the last frame is a strike', function () {
-      var rolls = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 7, 1];
-      var bowling = new Bowling();
-      previousRolls(bowling, rolls);
-      expect(bowling.score()).toEqual(18);
+    test('should allow fill balls when the last frame is a strike', () => {
+      const rolls = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 7, 1];
+      expect(new Bowling(rolls).score()).toEqual(18);
     });
 
-    it('rolling a spare with the two-roll bonus does not get a bonus roll', function () {
-      var rolls = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 7, 3];
-      var bowling = new Bowling();
-      previousRolls(bowling, rolls);
-      expect(bowling.score()).toEqual(20);
+    test('rolling a spare with the two roll bonus does not get a bonus roll', () => {
+      const rolls = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 7, 3];
+      expect(new Bowling(rolls).score()).toEqual(20);
     });
 
-    it('strikes with the two-roll bonus do not get bonus rolls', function () {
-      var rolls = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10, 10];
-      var bowling = new Bowling();
-      previousRolls(bowling, rolls);
-      expect(bowling.score()).toEqual(30);
+    test('strikes with the two roll bonus do not get bonus rolls', () => {
+      const rolls = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10, 10];
+      expect(new Bowling(rolls).score()).toEqual(30);
     });
 
-    it('a strike with the one-roll bonus after a spare in the last frame does not get a bonus', function () {
-      var rolls = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 3, 10];
-      var bowling = new Bowling();
-      previousRolls(bowling, rolls);
-      expect(bowling.score()).toEqual(20);
+    test('a strike with the one roll bonus after a spare in the last frame does not get a bonus', () => {
+      const rolls = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 3, 10];
+      expect(new Bowling(rolls).score()).toEqual(20);
     });
 
-    it('should be able to score a perfect game', function () {
-      var rolls = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10];
-      var bowling = new Bowling();
-      previousRolls(bowling, rolls);
-      expect(bowling.score()).toEqual(300);
+    test('should be able to score a perfect game', () => {
+      const rolls = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10];
+      expect(new Bowling(rolls).score()).toEqual(300);
     });
   });
 
-  describe('Check game rules.', function () {
-    it('rolls cannot score negative points', function () {
-      var bowling = new Bowling();
-      expect(function () {bowling.roll(-1);}).toThrow(new Error('Negative roll is invalid'));
+  describe('Check game rules.', () => {
+    test('rolls can not score negative points', () => {
+      const rolls = [-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+      expect(() => { new Bowling(rolls).score(); }).toThrow(
+        new Error('Pins must have a value from 0 to 10'),
+      );
     });
 
-    it('a roll cannot score more than 10 points', function () {
-      var bowling = new Bowling();
-      expect(function () {bowling.roll(11);}).toThrow( new Error('Pin count exceeds pins on the lane'));
+    test('a roll can not score more than 10 points', () => {
+      const rolls = [11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+      expect(() => { new Bowling(rolls).score(); }).toThrow(
+        new Error('Pins must have a value from 0 to 10'),
+      );
     });
 
-    it('two rolls in a frame cannot score more than 10 points', function () {
-      var bowling = new Bowling();
-      bowling.roll(5);
-      expect(function () {bowling.roll(6);}).toThrow( new Error('Pin count exceeds pins on the lane'));
+    test('two rolls in a frame can not score more than 10 points', () => {
+      const rolls = [5, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+      expect(() => { new Bowling(rolls).score(); }).toThrow(
+        new Error('Pin count exceeds pins on the lane'),
+      );
     });
 
-    it('bonus roll after a strike in the last frame cannot score more than 10 points', function () {
-      var rolls = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10];
-      var bowling = new Bowling();
-      previousRolls(bowling, rolls);
-      expect(function () { bowling.roll(11); }).toThrow(
-        new Error('Pin count exceeds pins on the lane'));
+    test('two bonus rolls after a strike in the last frame can not score more than 10 points', () => {
+      const rolls = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 5, 6];
+      expect(() => { new Bowling(rolls).score(); }).toThrow(
+        new Error('Pin count exceeds pins on the lane'),
+      );
     });
 
-    it('two bonus rolls after a strike in the last frame cannot score more than 10 points', function () {
-      var rolls = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 5];
-      var bowling = new Bowling();
-      previousRolls(bowling, rolls);
-      expect(function () {bowling.roll(6);}).toThrow( new Error('Pin count exceeds pins on the lane'));
+  test('two bonus rolls after a strike in the last frame can score more than 10 points if one is a strike', () => {
+      const rolls = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10, 6];
+      expect(new Bowling(rolls).score()).toEqual(26);
     });
 
-    it('two bonus rolls after a strike in the last frame can score more than 10 points if one is a strike', function () {
-      var rolls = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10, 6];
-      var bowling = new Bowling();
-      previousRolls(bowling, rolls);
-      expect(bowling.score()).toEqual(26);
+  test('the second bonus rolls after a strike in the last frame can not be a strike if the first one is not a strike', () => {
+      const rolls = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 6, 10];
+      expect(() => { new Bowling(rolls).score(); }).toThrow(
+        new Error('Pin count exceeds pins on the lane'),
+      );
     });
 
-    it('the second bonus roll after a strike in the last frame cannot be a strike if the first one is not a strike', function () {
-      var rolls = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 6];
-      var bowling = new Bowling();
-      previousRolls(bowling, rolls);
-      expect(function () { bowling.roll(10); }).toThrow(
-        new Error('Pin count exceeds pins on the lane'));
+   test('an unstarted game can not be scored', () => {
+      const rolls = [];
+      expect(() => { new Bowling(rolls).score(); }).toThrow(
+        new Error('Score cannot be taken until the end of the game'),
+      );
     });
 
-    it('the second bonus roll after a strike in the last frame cannot score more than 10 points', function () {
-      var rolls = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10];
-      var bowling = new Bowling();
-      previousRolls(bowling, rolls);
-      expect(function () { bowling.roll(11); }).toThrow(
-        new Error('Pin count exceeds pins on the lane'));
+    test('an incomplete game can not be scored', () => {
+      const rolls = [0, 0];
+      expect(() => { new Bowling(rolls).score(); }).toThrow(
+        new Error('Score cannot be taken until the end of the game'),
+      );
     });
 
-    it('an unstarted game cannot be scored', function () {
-      var rolls = [];
-      var bowling = new Bowling();
-      previousRolls(bowling, rolls);
-      expect(function () { bowling.score(); }).toThrow(
-        new Error('Score cannot be taken until the end of the game'));
+    test('a game with more than ten frames and no last frame spare or strike can not be scored', () => {
+      const rolls = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+      expect(() => { new Bowling(rolls).score(); }).toThrow(
+        new Error('Should not be able to roll after game is over'),
+      );
     });
 
-    it('an incomplete game cannot be scored', function () {
-      var rolls = [0, 0];
-      var bowling = new Bowling();
-      previousRolls(bowling, rolls);
-      expect(function () { bowling.score(); }).toThrow(
-        new Error('Score cannot be taken until the end of the game'));
+    test('bonus rolls for a strike in the last frame must be rolled before score can be calculated', () => {
+      const rolls = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10];
+      expect(() => { new Bowling(rolls).score(); }).toThrow(
+        new Error('Score cannot be taken until the end of the game'),
+      );
     });
 
-    it('cannot roll if game already has 10 frames', function () {
-      var rolls = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-      var bowling = new Bowling();
-      previousRolls(bowling, rolls);
-      expect(function () { bowling.roll(0); }).toThrow(
-        new Error('Cannot roll after game is over'));
+    test('both bonus rolls for a strike in the last frame must be rolled before score can be calculated', () => {
+      const rolls = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10];
+      expect(() => { new Bowling(rolls).score(); }).toThrow(
+        new Error('Score cannot be taken until the end of the game'),
+      );
     });
 
-    it('bonus rolls for a strike in the last frame must be rolled before score can be calculated', function () {
-      var rolls = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10];
-      var bowling = new Bowling();
-      previousRolls(bowling, rolls);
-      expect(function () { bowling.score(); }).toThrow(
-        new Error('Score cannot be taken until the end of the game'));
-    });
-
-    it('both bonus rolls for a strike in the last frame must be rolled before score can be calculated', function () {
-      var rolls = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10];
-      var bowling = new Bowling();
-      previousRolls(bowling, rolls);
-      expect(function () {bowling.score(); }).toThrow(
-        new Error('Score cannot be taken until the end of the game'));
-    });
-
-    it('bonus roll for a spare in the last frame must be rolled before score can be calculated', function () {
-      var rolls = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 3];
-      var bowling = new Bowling();
-      previousRolls(bowling, rolls);
-      expect(function () { bowling.score(); }).toThrow(
-        new Error('Score cannot be taken until the end of the game'));
-    });
-
-    it('cannot roll after bonus roll for a spare', function () {
-      var rolls = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 3, 2];
-      var bowling = new Bowling();
-      previousRolls(bowling, rolls);
-      expect(function () { bowling.roll(2); }).toThrow(
-        new Error('Cannot roll after game is over'));
-    });
-
-    it('cannot roll after bonus rolls for a strike', function () {
-      var rolls = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 3, 2];
-      var bowling = new Bowling();
-      previousRolls(bowling, rolls);
-      expect(function () { bowling.roll(2); }).toThrow(
-        new Error('Cannot roll after game is over'));
+    test('bonus roll for a spare in the last frame must be rolled before score can be calculated', () => {
+      const rolls = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 3];
+      expect(() => { new Bowling(rolls).score(); }).toThrow(
+        new Error('Score cannot be taken until the end of the game'),
+      );
     });
   });
 });
