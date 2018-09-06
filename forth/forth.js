@@ -34,35 +34,31 @@ function performMathOperations(operators, numbers) {
   return result;
 }
 
-function drop(arr) {
+function drop(...arr) {
   if (arr.length === 0) throw emptyStackError;
-  const newArr = [...arr];
-  newArr.pop();
-  return newArr;
+  arr.pop();
+  return arr;
 }
 
-function swap(arr) {
+function swap(...arr) {
   if (arr.length < 2) throw emptyStackError;
-  const newArr = [...arr];
-  const right = newArr.pop();
-  const left = newArr.pop();
-  return [...newArr, right, left];
+  const right = arr.pop();
+  const left = arr.pop();
+  return [...arr, right, left];
 }
 
-function over(arr) {
+function over(...arr) {
   if (arr.length < 2) throw emptyStackError;
-  const newArr = [...arr];
-  const copy = newArr[newArr.length - 2];
-  newArr.push(copy);
-  return newArr;
+  const copy = arr[arr.length - 2];
+  arr.push(copy);
+  return arr;
 }
 
-function duplicate(arr) {
+function duplicate(...arr) {
   if (arr.length === 0) throw emptyStackError;
-  const newArr = [...arr];
-  const [lastElement] = newArr.slice(-1);
-  newArr.push(lastElement);
-  return newArr;
+  const [lastElement] = arr.slice(-1);
+  arr.push(lastElement);
+  return arr;
 }
 
 function runCommands(input) {
@@ -70,18 +66,18 @@ function runCommands(input) {
   for (let i = 0; i < arr.length; i += 1) {
     switch (arr[i]) {
       case 'swap':
-        arr = [...swap(arr.slice(0, i)), ...arr.slice(i + 1, arr.length)];
+        arr = [...swap(...arr.slice(0, i)), ...arr.slice(i + 1, arr.length)];
         break;
       case 'drop':
-        arr = [...drop(arr.slice(0, i)), ...arr.slice(i + 1, arr.length)];
+        arr = [...drop(...arr.slice(0, i)), ...arr.slice(i + 1, arr.length)];
         i -= 2;
         break;
       case 'over':
-        arr = [...over(arr.slice(0, i)), ...arr.slice(i + 1, arr.length)];
+        arr = [...over(...arr.slice(0, i)), ...arr.slice(i + 1, arr.length)];
         i -= 2;
         break;
       case 'dup':
-        arr = [...duplicate(arr.slice(0, i)), ...arr.slice(i + 1, arr.length)];
+        arr = [...duplicate(...arr.slice(0, i)), ...arr.slice(i + 1, arr.length)];
         break;
       default:
         if (/[a-z]/.test(arr[i])) throw new Error('Unknown command');
@@ -96,7 +92,6 @@ function splitInput(inputString) {
   const operators = inputString.match(/[+-/%*](?!\d)/g);
   return { inputArray, operators };
 }
-
 function makeValidRegexPattern(key) {
   return key === '+' ? '\\+' : key;
 }
